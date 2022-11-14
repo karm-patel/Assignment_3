@@ -104,6 +104,7 @@ int main(int argc, char *argv[])
   int *output_single = new int[(N>>1)*(N>>1)];
   begin = TIME_NOW;
   singleThread(N, matA, matB, output_single);
+  singleThread_kij(N, matA, matB, output_single);
   end = TIME_NOW;
   cout << "Single thread execution time: " << 
     (double)TIME_DIFF(std::chrono::microseconds, begin, end) / 1000.0 << " ms\n";
