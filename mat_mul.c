@@ -122,5 +122,6 @@ multiplication_ptr_kij(array1, array2, output);
  	return 0;
 }
 
+//testing
 
 
