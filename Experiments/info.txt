@@ -1,0 +1,7 @@
+Input matrix of size 4096
+Reference execution time: 419252 ms
+matA: 
+matB: 
+output_reference: 
+Single thread execution time: 418551 ms
+Multi-threaded execution time: 216066 ms

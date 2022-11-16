@@ -7,10 +7,10 @@ data/generate: data/generate.cpp
 	g++ ./data/generate.cpp -o ./data/generate
 
 data/input_16.in: data/generate
-	./data/generate 4
+	./data/generate 2048
 
 data/input_4096.in: data/generate
-	./data/generate 4096 
+	./data/generate 4096
 
 data/input_8192.in: data/generate
 	./data/generate 8192 

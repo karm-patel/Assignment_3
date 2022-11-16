@@ -22,13 +22,13 @@ void singleThread(int N, int *matA, int *matB, int *output)
     }
   }
 
-  printf("\nARRAY: ");
-      for(int i = 0; i < N/2; i ++){
-    for(int j = 0; j < N/2; j ++){
-      printf("%d ", output[i*N/2 + j]);
-    }
-    printf("\n");
-  }
+  // printf("\nARRAY: ");
+  //     for(int i = 0; i < N/2; i ++){
+  //   for(int j = 0; j < N/2; j ++){
+  //     printf("%d ", output[i*N/2 + j]);
+  //   }
+  //   printf("\n");
+  // }
 }
 
 void singleThread_kij(int N, int *matA, int *matB, int *output)
