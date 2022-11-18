@@ -224,26 +224,26 @@ int main(int argc, char *argv[])
 
   /* if(N<=8){ 
   cerr << "matA: " << endl;
-  for(int i=0; i<(N); i++){
-    for(int j=0; j<N; j++){
-      cerr << matA[i*N+j] << "\t";
-    }
-    cerr << endl;
-  }
+  // for(int i=0; i<(N); i++){
+  //   for(int j=0; j<N; j++){
+  //     cerr << matA[i*N+j] << "\t";
+  //   }
+  //   cerr << endl;
+  // }
   cerr << "matB: " << endl;
-  for(int i=0; i<(N); i++){
-    for(int j=0; j<N; j++){
-      cerr << matB[i*N+j] << "\t";
-    }
-    cerr << endl;
-  }
+  // for(int i=0; i<(N); i++){
+  //   for(int j=0; j<N; j++){
+  //     cerr << matB[i*N+j] << "\t";
+  //   }
+  //   cerr << endl;
+  // }
   cerr << "output_reference: " << endl;
-  for(int i=0; i<(N>>1); i++){
-    for(int j=0; j<(N>>1); j++){
-      cerr << output_reference[i*(N>>1)+j] << "\t";
-    }
-    cerr << endl;
-  }
+  // for(int i=0; i<(N>>1); i++){
+  //   for(int j=0; j<(N>>1); j++){
+  //     cerr << output_reference[i*(N>>1)+j] << "\t";
+  //   }
+  //   cerr << endl;
+  // }
   /* } */
 
   // Execute single thread
