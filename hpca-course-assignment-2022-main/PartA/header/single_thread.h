@@ -2,7 +2,7 @@
 
 void singleThread(int N, int *matA, int *matB, int *output)
 {
-  assert( N>=4 and N == ( N &~ (N-1)));
+  //assert( N>=4 and N == ( N &~ (N-1)));
   for(int rowA = 0; rowA < N; rowA +=2) {
     for(int colB = 0; colB < N; colB += 2){
       int sum = 0;
