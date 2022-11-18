@@ -3,19 +3,18 @@
 #include <stdlib.h>
 
 int main() {
-    int N;
-    scanf("%d", &N);
+    int N = 256;
     float *matrix_a = malloc(N*N*sizeof(float));
     float *matrix_b = malloc(N*N*sizeof(float));
-    float result[N][N];
+    int result[N][N];
     __m128 va, vb, vresult;
 
     // initialize matrix_a and matrix_b
-    for (int i = 0; i < 1048576; i++) {
-        *(matrix_a+i) = 0.1f;
-        *(matrix_b+i) = 0.2f;
+    for (int i = 0; i < N*N; i++) {
+        *(matrix_a+i) = 1;
+        *(matrix_b+i) = 2;
     }
-    // initialize result matrix
+    // initialize result matrix'
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < N; j++) {
             result[i][j] = 0;
@@ -42,12 +41,12 @@ int main() {
         }
     }
     
-    // for (int i = 0; i < N; i++) {
-    //     for (int j = 0; j < N; j++) {
-    //         printf("%f ", result[i][j]);
-    //     }
-    //     printf("\n");
-    // }
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            printf("%d ", result[i][j]);
+        }
+        printf("\n");
+    }
     
     return 0;
 }
