@@ -19,3 +19,6 @@ Input matrix of size 8192
 Reference execution time: 5.06092e+06 ms
 Single thread execution time: 239245 ms
 ./rmm data/input_16384.in
+Input matrix of size 16384
+Single thread execution time: 2.07991e+06 ms
+
