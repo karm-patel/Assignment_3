@@ -1,0 +1,68 @@
+Input matrix of size 2048
+Reference execution time: 0 ms
+Multiplied
+GPU execution time: 440.484 ms
+Fri Nov 25 23:37:26 2022       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 465.19.01    Driver Version: 465.19.01    CUDA Version: 11.3     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  NVIDIA Tesla V1...  On   | 00000000:06:00.0 Off |                    0 |
+| N/A   63C    P0   212W / 300W |  30653MiB / 32510MiB |    100%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   1  NVIDIA Tesla V1...  On   | 00000000:07:00.0 Off |                    0 |
+| N/A   49C    P0    73W / 300W |  18977MiB / 32510MiB |      6%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   2  NVIDIA Tesla V1...  On   | 00000000:0A:00.0 Off |                    0 |
+| N/A   52C    P0   179W / 300W |   8150MiB / 32510MiB |     92%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   3  NVIDIA Tesla V1...  On   | 00000000:0B:00.0 Off |                    0 |
+| N/A   38C    P0    79W / 300W |  23593MiB / 32510MiB |      5%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   4  NVIDIA Tesla V1...  On   | 00000000:85:00.0 Off |                    0 |
+| N/A   40C    P0    66W / 300W |  22671MiB / 32510MiB |     16%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   5  NVIDIA Tesla V1...  On   | 00000000:86:00.0 Off |                    0 |
+| N/A   40C    P0    67W / 300W |  12809MiB / 32510MiB |      4%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   6  NVIDIA Tesla V1...  On   | 00000000:89:00.0 Off |                    0 |
+| N/A   41C    P0    76W / 300W |  12031MiB / 32510MiB |      4%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   7  NVIDIA Tesla V1...  On   | 00000000:8A:00.0 Off |                    0 |
+| N/A   39C    P0    68W / 300W |  23433MiB / 32510MiB |      8%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|    0   N/A  N/A    563869      C   /usr/bin/python3                29469MiB |
+|    0   N/A  N/A    665574      C   python                           1179MiB |
+|    1   N/A  N/A    541159      C   python                          18489MiB |
+|    1   N/A  N/A    563869      C   /usr/bin/python3                  483MiB |
+|    2   N/A  N/A    563869      C   /usr/bin/python3                  483MiB |
+|    2   N/A  N/A    631302      C   ...tla/miniconda3/bin/python     8111MiB |
+|    2   N/A  N/A    701167      C   ...tla/miniconda3/bin/python     1339MiB |
+|    3   N/A  N/A    563869      C   /usr/bin/python3                  483MiB |
+|    3   N/A  N/A    706726      C   python                          23105MiB |
+|    4   N/A  N/A    563869      C   /usr/bin/python3                  483MiB |
+|    4   N/A  N/A    706892      C   python                          22183MiB |
+|    5   N/A  N/A    563869      C   /usr/bin/python3                  483MiB |
+|    5   N/A  N/A    707061      C   python                          12323MiB |
+|    6   N/A  N/A    563869      C   /usr/bin/python3                  483MiB |
+|    6   N/A  N/A    707159      C   python                          11545MiB |
+|    7   N/A  N/A    563869      C   /usr/bin/python3                  483MiB |
+|    7   N/A  N/A    707238      C   python                          22945MiB |
++-----------------------------------------------------------------------------+
