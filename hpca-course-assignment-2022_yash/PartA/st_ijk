@@ -1,0 +1,21 @@
+./rmm data/input_16.in
+Input matrix of size 16
+Reference execution time: 0.028 ms
+Single thread execution time: 0.028 ms
+./rmm data/input_128.in
+Input matrix of size 128
+Reference execution time: 3.129 ms
+Single thread execution time: 0.986 ms
+./rmm data/input_256.in
+Input matrix of size 256
+Reference execution time: 24.734 ms
+Single thread execution time: 7.426 ms
+./rmm data/input_4096.in
+Input matrix of size 4096
+Reference execution time: 458240 ms
+Single thread execution time: 30040.8 ms
+./rmm data/input_8192.in
+Input matrix of size 8192
+Reference execution time: 5.06092e+06 ms
+Single thread execution time: 239245 ms
+./rmm data/input_16384.in
