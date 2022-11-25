@@ -1,0 +1,5 @@
+#!/bin/sh
+#SBATCH --job-name=mat_mul_2048_naive
+#SBATCH --output=results/mat_mul_2048_naive_
+./objects/mat_mul_2048_naive_.o data/input_2048.in
+nvidia-smi
