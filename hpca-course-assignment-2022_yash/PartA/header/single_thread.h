@@ -34,9 +34,9 @@ void singleThread(int N, int *matA, int *matB, int *output)
   __m256i r1,r2,r3,r4;
   for(int i=0; i<(N>>1*N>>1); i++)
     output[i] = 0;
-    for(int iter=0; iter<N; iter+=2)
+    for(int rowA=0; rowA<N; rowA+=2)
     {
-      for(int rowA=0; rowA<N; rowA+=2)
+      for(int iter=0; iter<N; iter+=2)
         {
           int r1idx = rowA*N;
           int r2idx = (rowA+1)*N;
