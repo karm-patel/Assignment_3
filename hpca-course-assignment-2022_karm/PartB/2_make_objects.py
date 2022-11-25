@@ -28,11 +28,10 @@ if "tiled" in kernels:
 
 
 if "naive" in kernels:
+    content = re.sub(r"int kernel = [0-9];", f"int kernel = {0};", content)
+    with open(ip_file, 'w') as fp:
+        fp.write(content)
     for mat_size in mat_sizes:
-        content = re.sub(r"int kernel = [0-9];", f"int kernel = {0};", content)
-        with open(ip_file, 'w') as fp:
-            fp.write(content)
-        
-        cmd = f"nvcc main.cu -o objects/mat_mul_{mat_size}_naive_ -I ./header"
+        cmd = f"nvcc main.cu -o objects/mat_mul_{mat_size}_naive_.o -I ./header"
         print("executing... " + cmd)
         os.system(cmd)

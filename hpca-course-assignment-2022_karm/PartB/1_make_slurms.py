@@ -6,7 +6,7 @@ op_dir = "slurms/"
 def slurm_content(mat_size, kernel, tile_size): 
     return f'''#!/bin/sh
 #SBATCH --job-name=mat_mul_{mat_size}_{kernel}
-#SBATCH --output=results/mat_mul_{mat_size}_{kernel}_{tile_size}
+#SBATCH --output=results/iter_0/mat_mul_{mat_size}_{kernel}_{tile_size}
 ./objects/mat_mul_{mat_size}_{kernel}_{tile_size}.o data/input_{mat_size}.in
 nvidia-smi'''
 
