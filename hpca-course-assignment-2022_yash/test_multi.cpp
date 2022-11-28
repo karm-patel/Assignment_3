@@ -13,6 +13,7 @@ using namespace std;
 int *matA;
 int *matB;
 int *output;
+int N;
 struct thread_args{
     int rowS;
     int colS;
@@ -22,13 +23,17 @@ pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 // Create other necessary functions here
 void *helper(void *args)
 {
-    struct thread_args * arg = (struct thread_args *) args;
-    int N = arg->N;
-    int rowS = arg->rowS;
-    int colS = arg->colS;
+    // struct thread_args * arg = (struct thread_args *) args;
+    //int N = arg->N;
+    // int rowS = arg->rowS;
+    // int colS = arg->colS;
+    pthread_mutex_lock(&lock);
+    static int rowA = 0;
+    rowA+=2;
+    pthread_mutex_unlock(&lock);
   __m256i r1,r2,r3,r4;
-    for(int rowA=rowS; rowA<rowS+N/2; rowA+=2)
-    {
+    // for(int rowA=rowS; rowA<rowS+N/2; rowA+=2)
+    // {
       for(int iter=0; iter<N; iter+=2)
         {
           int r1idx = rowA*N;
@@ -44,7 +49,7 @@ void *helper(void *args)
             r4 = _mm256_set1_epi32(matA[r2idx+(iter+1)]);
             int rowC = rowA >> 1;
             int rowIndex = rowC*(N>>1);
-            for(int colB=colS; colB<colS+N/2; colB+=8)
+            for(int colB=0; colB<N; colB+=8)
             {
                 __m256i col1 = _mm256_loadu_si256((__m256i *)&matB[(iter)*N + colB]);
                 __m256i col2 = _mm256_loadu_si256((__m256i *)&matB[(iter+1)*N + colB]);
@@ -59,16 +64,16 @@ void *helper(void *args)
                 long private_thread_t2 = sum[2] + sum[3];
                 long private_thread_t3 = sum[4] + sum[5];
                 long private_thread_t4 = sum[6] + sum[7];
-                //pthread_mutex_lock(&lock);
+                pthread_mutex_lock(&lock);
                 output[indexC] += private_thread_t1;
                 output[indexC+1] += private_thread_t2;
                 output[indexC+2] += private_thread_t3;
                 output[indexC+3] += private_thread_t4;
-                //pthread_mutex_unlock(&lock);
+                pthread_mutex_unlock(&lock);
                 //cout << output[indexC] << " ";
             }
         }
-    }
+    // }
 }
 
 // Fill in this function
@@ -97,6 +102,7 @@ void multiThread(int N, int *matA, int *matB, int *output)
         // Assigning variables to global
         ::matA = matA;
         ::matB = matB;
+        ::N = N;
         for(int i=0; i<(N>>1*N>>1); i++)
             output[i] = 0;
         ::output = output;
@@ -106,21 +112,24 @@ void multiThread(int N, int *matA, int *matB, int *output)
         struct thread_args args[N_THREADS];
         struct thread_args * args_ptrs[N_THREADS];
 
-        for(int k=0; k<N/N_THREADS; k+=N_THREADS){
+        // for(int k=0; k<N/2; k+=2){
+        //   for(int i=0; i<N_THREADS; i++){
+        //       args[i].N = N;
+        //       //args[i].rowS = (i/2)*N/2;
+        //       //args[i].colS = (i%2)*N/2;
+        //       args_ptrs[i] = &args[i];
+        //   }
+        //   for(int i=0; i<N_THREADS; i++){
+        //     pthread_create( &threads[i], NULL, helper, (void*) args_ptrs[i]);
+        //   }
+        // }
+        for(int k=0; k<N; k+=8){
           for(int i=0; i<N_THREADS; i++){
-              args[i].N = N;
-              args[i].rowS = (i/2)*N/2;
-              args[i].colS = (i%2)*N/2;
-              args_ptrs[i] = &args[i];
+              pthread_create( &threads[i], NULL, helper, (void*) args_ptrs[i]);
+            }
+          for(int i=0; i<N_THREADS; i++){
+              pthread_join(threads[i], NULL);
           }
-        }
-
-        for(int i=0; i<N_THREADS; i++){
-            pthread_create( &threads[i], NULL, helper, (void*) args_ptrs[i]);
-        }
-
-        for(int i=0; i<N_THREADS; i++){
-            pthread_join(threads[i], NULL);
         }
     }
 }
@@ -170,25 +179,25 @@ int main()
     int *output_multi = new int[(N>>1)*(N>>1)];
     int *output_reference = new int[(N>>1)*(N>>1)];
 
-    // Execute reference program
-    // auto begin = TIME_NOW;
-    // reference(N, matA, matB, output_reference);
-    // auto end = TIME_NOW;
-    // cout << "Reference execution time: " << 
-    //     (double)TIME_DIFF(std::chrono::microseconds, begin, end) / 1000.0 << " ms\n"; 
-    //     int *output_vector = new int[(N>>1)*(N>>1)];
+    //Execute reference program
+    auto begin = TIME_NOW;
+    reference(N, matA, matB, output_reference);
+    auto end = TIME_NOW;
+    cout << "Reference execution time: " << 
+        (double)TIME_DIFF(std::chrono::microseconds, begin, end) / 1000.0 << " ms\n"; 
+        int *output_vector = new int[(N>>1)*(N>>1)];
 
     
-    auto begin = TIME_NOW;
+    //auto begin = TIME_NOW;
     multiThread(N, matA, matB, output_multi);
-    auto end = TIME_NOW;
+    //auto end = TIME_NOW;
     cout << "Multi execution time: " << 
         (double)TIME_DIFF(std::chrono::microseconds, begin, end) / 1000.0 << " ms\n"; 
 
-    // for(int i = 0; i < ((N>>1)*(N>>1)); ++i)
-    // if(output_multi[i] != output_reference[i]) {
-    //   cout << "Mismatch at " << i << "\n";
-    //   exit(0);
-    // }
+    for(int i = 0; i < ((N>>1)*(N>>1)); ++i)
+    if(output_multi[i] != output_reference[i]) {
+      cout << "Mismatch at " << i << "\n";
+      exit(0);
+    }
     return 0;
 }
