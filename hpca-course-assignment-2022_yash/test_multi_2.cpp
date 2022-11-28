@@ -71,7 +71,7 @@ void *helper(void *args)
 // Fill in this function
 void multiThread(int N, int *matA, int *matB, int *output)
 {
-    if(N<=8)
+    if(N<=128)
     {
       for(int rowA = 0; rowA < N; rowA +=2) {
         for(int colB = 0; colB < N; colB += 2){
@@ -165,25 +165,25 @@ int main()
     int *output_multi = new int[(N>>1)*(N>>1)];
     int *output_reference = new int[(N>>1)*(N>>1)];
 
-    // //Execute reference program
-    // auto begin = TIME_NOW;
-    // reference(N, matA, matB, output_reference);
-    // auto end = TIME_NOW;
-    // std:: cout << "Reference execution time: " << 
-    //     (double)TIME_DIFF(std::chrono::microseconds, begin, end) / 1000.0 << " ms\n"; 
-    //     int *output_vector = new int[(N>>1)*(N>>1)];
+    //Execute reference program
+    auto begin = TIME_NOW;
+    reference(N, matA, matB, output_reference);
+    auto end = TIME_NOW;
+    std:: cout << "Reference execution time: " << 
+        (double)TIME_DIFF(std::chrono::microseconds, begin, end) / 1000.0 << " ms\n"; 
+        int *output_vector = new int[(N>>1)*(N>>1)];
 
     
-    auto begin = TIME_NOW;
+    begin = TIME_NOW;
     multiThread(N, matA, matB, output_multi);
-    auto end = TIME_NOW;
+    end = TIME_NOW;
     std:: cout << "Multi execution time: " << 
         (double)TIME_DIFF(std::chrono::microseconds, begin, end) / 1000.0 << " ms\n"; 
 
-    // for(int i = 0; i < ((N>>1)*(N>>1)); ++i)
-    // if(output_multi[i] != output_reference[i]) {
-    //   std:: cout << "Mismatch at " << i << "\n";
-    //   exit(0);
-    // }
+    for(int i = 0; i < ((N>>1)*(N>>1)); ++i)
+    if(output_multi[i] != output_reference[i]) {
+      std:: cout << "Mismatch at " << i << "\n";
+      exit(0);
+    }
     return 0;
 }
