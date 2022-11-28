@@ -12,7 +12,7 @@ using namespace std;
 #define TIME_DIFF(gran, start, end) std::chrono::duration_cast<gran>(end - start).count()
 
 #include "single_thread.h"
-//#include "multi_thread.h"
+#include "multi_thread.h"
 
 // Used to cross-check answer. DO NOT MODIFY!
 void reference(int N, int *matA, int *matB, int *output)
@@ -76,29 +76,29 @@ int main(int argc, char *argv[])
   cout << "Reference execution time: " << 
     (double)TIME_DIFF(std::chrono::microseconds, begin, end) / 1000.0 << " ms\n";    
 
-  /* if(N<=8){ */
-  // cerr << "matA: " << endl;
-  // for(int i=0; i<(N); i++){
-  //   for(int j=0; j<N; j++){
-  //     cerr << matA[i*N+j] << "\t";
-  //   }
-  //   cerr << endl;
-  // }
-  // cerr << "matB: " << endl;
-  // for(int i=0; i<(N); i++){
-  //   for(int j=0; j<N; j++){
-  //     cerr << matB[i*N+j] << "\t";
-  //   }
-  //   cerr << endl;
-  // }
-  // cerr << "output_reference: " << endl;
-  // for(int i=0; i<(N>>1); i++){
-  //   for(int j=0; j<(N>>1); j++){
-  //     cerr << output_reference[i*(N>>1)+j] << "\t";
-  //   }
-  //   cerr << endl;
-  // }
-  /* } */
+  if(N<=8){ 
+  cerr << "matA: " << endl;
+  for(int i=0; i<(N); i++){
+    for(int j=0; j<N; j++){
+      cerr << matA[i*N+j] << "\t";
+    }
+    cerr << endl;
+  }
+  cerr << "matB: " << endl;
+  for(int i=0; i<(N); i++){
+    for(int j=0; j<N; j++){
+      cerr << matB[i*N+j] << "\t";
+    }
+    cerr << endl;
+  }
+  cerr << "output_reference: " << endl;
+  for(int i=0; i<(N>>1); i++){
+    for(int j=0; j<(N>>1); j++){
+      cerr << output_reference[i*(N>>1)+j] << "\t";
+    }
+    cerr << endl;
+  }
+  }
 
   // Execute single thread
   int *output_single = new int[(N>>1)*(N>>1)];
@@ -115,18 +115,18 @@ int main(int argc, char *argv[])
     }
 
   // Execute multi-thread
-  // int *output_multi = new int[(N>>1)*(N>>1)];
-  // begin = TIME_NOW;
-  // multiThread(N, matA, matB, output_multi);
-  // end = TIME_NOW;
-  // cout << "Multi-threaded execution time: " << 
-  //   (double)TIME_DIFF(std::chrono::microseconds, begin, end) / 1000.0 << " ms\n";
+  int *output_multi = new int[(N>>1)*(N>>1)];
+  begin = TIME_NOW;
+  multiThread(N, matA, matB, output_multi);
+  end = TIME_NOW;
+  cout << "Multi-threaded execution time: " << 
+    (double)TIME_DIFF(std::chrono::microseconds, begin, end) / 1000.0 << " ms\n";
 
-  // for(int i = 0; i < ((N>>1)*(N>>1)); ++i)
-  //   if(output_multi[i] != output_reference[i]) {
-  //     cout << "Mismatch at " << i << "\n";
-  //     exit(0);
-  //   }
+  for(int i = 0; i < ((N>>1)*(N>>1)); ++i)
+    if(output_multi[i] != output_reference[i]) {
+      cout << "Mismatch at " << i << "\n";
+      exit(0);
+    }
 
   input_file.close(); 
   return 0; 
