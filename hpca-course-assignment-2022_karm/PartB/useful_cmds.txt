@@ -1,0 +1,43 @@
+sudo nvprof --metrics gld_transactions,l2_read_transactions,dram_read_transactions,sysmem_read_transactions ./cmm_server data/input_4096.in
+sudo nvprof --print-gpu-trace ./cmm_server data/input_4096.in
+
+
+
+Input matrix of size 4096
+Reference execution time: 0 ms
+==16299== NVPROF is profiling process 16299, command: ./cmm_server data/input_4096.in
+==16299== Some kernel(s) will be replayed on device 0 in order to collect all events/metrics.
+Replaying kernel "mat_mul_naive(int, int*, int*, int*)" (done)
+Multiplied
+GPU execution time: 5920.14 ms
+==16299== Profiling application: ./cmm_server data/input_4096.in
+==16299== Profiling result:
+==16299== Metric result:
+Invocations                               Metric Name                        Metric Description         Min         Max         Avg
+Device "NVIDIA GeForce GTX 1050 (0)"
+    Kernel: mat_mul_naive(int, int*, int*, int*)
+          1                          gld_transactions                  Global Load Transactions  3.4364e+10  3.4364e+10  3.4364e+10
+          1                      l2_read_transactions                      L2 Read Transactions  9666552064  9666552064  9666552064
+          1                    dram_read_transactions           Device Memory Read Transactions  4280955913  4280955913  4280955913
+          1                  sysmem_read_transactions           System Memory Read Transactions        7952        7952        7952
+smit@smit-msi:~/karm/Assignment_3/hpca-course-assignment-2022_karm/PartB$ nvcc main.cu -o cmm_server -I ./header
+
+
+./cmm_server data/input_4096.in 
+Input matrix of size 4096
+Reference execution time: 0 ms
+==16477== NVPROF is profiling process 16477, command: ./cmm_server data/input_4096.in
+==16477== Some kernel(s) will be replayed on device 0 in order to collect all events/metrics.
+Replaying kernel "mat_mul_tiled(int, int, int*, int*, int*)" (done)
+Multipliedinternal events
+GPU execution time: 1081.95 ms
+==16477== Profiling application: ./cmm_server data/input_4096.in
+==16477== Profiling result:
+==16477== Metric result:
+Invocations                               Metric Name                        Metric Description         Min         Max         Avg
+Device "NVIDIA GeForce GTX 1050 (0)"
+    Kernel: mat_mul_tiled(int, int, int*, int*, int*)
+          1                          gld_transactions                  Global Load Transactions  1073921858  1073921858  1073921858
+          1                      l2_read_transactions                      L2 Read Transactions   402864664   402864664   402864664
+          1                    dram_read_transactions           Device Memory Read Transactions   207959152   207959152   207959152
+          1                  sysmem_read_transactions           System Memory Read Transactions         663         663         663

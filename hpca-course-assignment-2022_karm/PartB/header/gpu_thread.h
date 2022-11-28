@@ -118,7 +118,7 @@ void gpuThread(int N, int *matA, int *matB, int *output)
     cudaMemcpy(output_gpu, output, bytes/4, cudaMemcpyHostToDevice);
 
 
-    int kernel = 0;
+    int kernel = 1;
     int TILE = 32;
     dim3 threadsPerBlock(TILE, TILE);
     dim3 numBlocks((N>>1)/TILE, (N>>1)/TILE);
