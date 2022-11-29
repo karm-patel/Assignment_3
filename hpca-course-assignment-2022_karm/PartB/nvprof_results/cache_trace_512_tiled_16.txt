@@ -1,0 +1,12 @@
+==26985== NVPROF is profiling process 26985, command: ./cmm_server data/input_512.in
+==26985== Some kernel(s) will be replayed on device 0 in order to collect all events/metrics.
+==26985== Profiling application: ./cmm_server data/input_512.in
+==26985== Profiling result:
+==26985== Metric result:
+Invocations                               Metric Name                        Metric Description         Min         Max         Avg
+Device "NVIDIA GeForce GTX 1050 (0)"
+    Kernel: mat_mul_tiled(int, int, int*, int*, int*)
+          1                          gld_transactions                  Global Load Transactions     4194306     4194306     4194306
+          1                      l2_read_transactions                      L2 Read Transactions     1573152     1573152     1573152
+          1                    dram_read_transactions           Device Memory Read Transactions      574352      574352      574352
+          1                  sysmem_read_transactions           System Memory Read Transactions           0           0           0
