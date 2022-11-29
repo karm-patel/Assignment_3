@@ -72,7 +72,7 @@ __global__ void mat_mul_tiled(int N, int tile, int *matA, int *matB, int *output
     int matA_ptr = 2*rowC*N + tx;
     int matB_ptr = 2*colC + ty*N;
 
-    if (indexC == -1)
+    if (indexC == 0)
         printf("%d: %d %d - - %d %d (%d, %d)\n",indexC, rowC, colC, matA_ptr, matB_ptr, tx, ty);
     // if (thread_id >= N*N/4)
     //     return;
@@ -87,7 +87,7 @@ __global__ void mat_mul_tiled(int N, int tile, int *matA, int *matB, int *output
         // wait for all threads to fill blockA and blockB completely
         __syncthreads();
 
-        if (indexC == -1)
+        if (indexC == 0)
         {
         printf("\nA = \n");
         for (int a =0; a<tile; a++){
@@ -130,7 +130,7 @@ void gpuThread(int N, int *matA, int *matB, int *output)
 {
 
     ini_zero(N/2, output);
-    cudaSetDevice(2);
+    cudaSetDevice(1);
     size_t bytes = sizeof(int) * N * N;
 
     // Assign memory from GPU to gpu arrays
@@ -146,7 +146,7 @@ void gpuThread(int N, int *matA, int *matB, int *output)
 
 
     int kernel = 1;
-    int TILE = 16;
+    int TILE = 32;
     dim3 threadsPerBlock(TILE, TILE);
     dim3 numBlocks(0.5*N/TILE, 0.5*N/TILE);
 

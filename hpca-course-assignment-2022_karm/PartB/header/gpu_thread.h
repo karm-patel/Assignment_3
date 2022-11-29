@@ -19,35 +19,39 @@ void printArray(int N, int *arr){
   printf("-------------------------\n");
 }
 
+
 __global__ void mat_mul_naive(int N, int *matA, int *matB, int *output){
+    /*
+    Naive implementation: 
+    - We create (N/2)*(N/2) threads
+    - Each thread calculate one element of output.
+    - Henc, each thread multiply one row of A with one column of B.
+    */
+
+    // Thread blocks are in 1D grid and threads in threa block are also in 1D
     int thread_id = (blockIdx.x * blockDim.x) + threadIdx.x;
 
     if (thread_id >= N*N/4)
         return;
 
+    // multiplied by 2, since A & B has doubled sized than output.
     int rowA = 2*(2*thread_id/N);
     int colB = 2*thread_id%N;
     int j = colB;
 
-    // if (thread_id == 0){
-    //     printf("First thread - %d ",  thread_id);
-    //     for (int i = rowA*N; i < (rowA+1)*N; i++){
-    //         output[thread_id] += matA[i]*matB[j];
-    //         j+=N;
-    //     }
-    // }
-    // else{
-    // printf("R:%d, C:%d\n", rowA, colB);
+    // Current thread will calculate output[thread_id], so it multiply A[rowA] * B[colB]
     for (int i = rowA*N; i < (rowA+1)*N; i++){
         output[thread_id] += (matA[i] + matA[i + N])*(matB[j] + matB[j+1]);
-        // printf("(%d + %d)*(%d + %d) + ", matA[i], matA[i+N], matB[j], matB[j+1]);
         j+=N;
     }
-    // printf("\n");
 }
-// }
 
 __global__ void mat_mul_tiled(int N, int tile, int *matA, int *matB, int *output){
+    /*
+    Tiled implementation:
+    - We create (N/2)*(N/2) threads
+
+    */
     int tx, ty;
     tx = threadIdx.x;
     ty = threadIdx.y;
@@ -58,13 +62,13 @@ __global__ void mat_mul_tiled(int N, int tile, int *matA, int *matB, int *output
     int indexC = rowC * (N>>1) + colC;
 
     extern __shared__ int blockAB[]; // contains two array BlockA[tile*tile] & BlockB[tile*tile]
-    int * blockA = blockAB;
-    int * blockB = blockAB + tile*tile;
+    int * blockA = blockAB; // extract blockA
+    int * blockB = blockAB + tile*tile; //extract blockB
 
     if (indexC >= 0.25*(N * N)) return;
 
     // if (rowC, colC) = (3,2) then this element is made from 
-    //C[3][2] = (A[6,:] + A[7,:]) * (B[:,4] + B[:,5])
+    //C[3][2] = (7th row of A + 8th row of A) * (5th column of B + 6th column of B)
     int matA_ptr = 2*rowC*N + tx;
     int matB_ptr = 2*colC + ty*N;
 
@@ -98,7 +102,7 @@ __global__ void mat_mul_tiled(int N, int tile, int *matA, int *matB, int *output
 void gpuThread(int N, int *matA, int *matB, int *output)
 {
 
-    ini_zero(N/2, output);
+    ini_zero(N>>1, output);
     cudaSetDevice(4);
     size_t bytes = sizeof(int) * N * N;
 
@@ -115,9 +119,9 @@ void gpuThread(int N, int *matA, int *matB, int *output)
 
 
     int kernel = 1;
-    int TILE = 128;
+    int TILE = 32;
     dim3 threadsPerBlock(TILE, TILE);
-    dim3 numBlocks(0.5*N/TILE, 0.5*N/TILE);
+    dim3 numBlocks((N>>1)/TILE, (N>>1)/TILE);
 
     switch (kernel){
 

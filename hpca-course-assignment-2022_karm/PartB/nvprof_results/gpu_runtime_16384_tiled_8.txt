@@ -1,0 +1,15 @@
+==27871== NVPROF is profiling process 27871, command: ./cmm_server data/input_16384.in
+==27871== Profiling application: ./cmm_server data/input_16384.in
+==27871== Profiling result:
+   Start  Duration            Grid Size      Block Size     Regs*    SSMem*    DSMem*      Size  Throughput  SrcMemType  DstMemType           Device   Context    Stream  Name
+7.24330s  217.69ms                    -               -         -         -         -  1.0000GB  4.5938GB/s    Pageable      Device  NVIDIA GeForce          1         7  [CUDA memcpy HtoD]
+7.46113s  238.44ms                    -               -         -         -         -  1.0000GB  4.1939GB/s    Pageable      Device  NVIDIA GeForce          1         7  [CUDA memcpy HtoD]
+7.69981s  64.754ms                    -               -         -         -         -  256.00MB  3.8608GB/s    Pageable      Device  NVIDIA GeForce          1         7  [CUDA memcpy HtoD]
+7.80438s  42.3032s        (1024 1024 1)         (8 8 1)        23        0B      512B         -           -           -           -  NVIDIA GeForce          1         7  mat_mul_tiled(int, int, int*, int*, int*) [114]
+50.1076s  53.060ms                    -               -         -         -         -  256.00MB  4.7116GB/s      Device    Pageable  NVIDIA GeForce          1         7  [CUDA memcpy DtoH]
+
+Regs: Number of registers used per CUDA thread. This number includes registers used internally by the CUDA driver and/or tools and can be more than what the compiler shows.
+SSMem: Static shared memory allocated per CUDA block.
+DSMem: Dynamic shared memory allocated per CUDA block.
+SrcMemType: The type of source memory accessed by memory operation/copy
+DstMemType: The type of destination memory accessed by memory operation/copy

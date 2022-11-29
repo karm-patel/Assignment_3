@@ -1,0 +1,12 @@
+==27038== NVPROF is profiling process 27038, command: ./cmm_server data/input_2048.in
+==27038== Some kernel(s) will be replayed on device 0 in order to collect all events/metrics.
+==27038== Profiling application: ./cmm_server data/input_2048.in
+==27038== Profiling result:
+==27038== Metric result:
+Invocations                               Metric Name                        Metric Description         Min         Max         Avg
+Device "NVIDIA GeForce GTX 1050 (0)"
+    Kernel: mat_mul_tiled(int, int, int*, int*, int*)
+          1                          gld_transactions                  Global Load Transactions   268517266   268517266   268517266
+          1                      l2_read_transactions                      L2 Read Transactions   100664056   100664056   100664056
+          1                    dram_read_transactions           Device Memory Read Transactions    42229648    42229648    42229648
+          1                  sysmem_read_transactions           System Memory Read Transactions           0           0           0
