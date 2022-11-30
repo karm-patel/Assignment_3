@@ -1,0 +1,10 @@
+==11335== NVPROF is profiling process 11335, command: ./cmm_server data/input_2048.in
+==11335== Some kernel(s) will be replayed on device 0 in order to collect all events/metrics.
+==11335== Profiling application: ./cmm_server data/input_2048.in
+==11335== Profiling result:
+==11335== Metric result:
+"Device","Kernel","Invocations","Metric Name","Metric Description","Min","Max","Avg"
+"NVIDIA GeForce GTX 1050 (0)","mat_mul_naive(int, int*, int*, int*)",1,"gld_transactions","Global Load Transactions",4295790002,4295790002,4295790002
+"NVIDIA GeForce GTX 1050 (0)","mat_mul_naive(int, int*, int*, int*)",1,"l2_read_transactions","L2 Read Transactions",1208097385,1208097385,1208097385
+"NVIDIA GeForce GTX 1050 (0)","mat_mul_naive(int, int*, int*, int*)",1,"dram_read_transactions","Device Memory Read Transactions",129704643,129704643,129704643
+"NVIDIA GeForce GTX 1050 (0)","mat_mul_naive(int, int*, int*, int*)",1,"sysmem_read_transactions","System Memory Read Transactions",660,660,660

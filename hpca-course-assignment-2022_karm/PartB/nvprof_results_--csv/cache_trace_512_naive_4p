@@ -1,0 +1,10 @@
+==15010== NVPROF is profiling process 15010, command: ./cmm_server data/input_512.in
+==15010== Some kernel(s) will be replayed on device 0 in order to collect all events/metrics.
+==15010== Profiling application: ./cmm_server data/input_512.in
+==15010== Profiling result:
+==15010== Metric result:
+"Device","Kernel","Invocations","Metric Name","Metric Description","Min","Max","Avg"
+"NVIDIA GeForce GTX 1050 (0)","mat_mul_naive_4p_multiplications(int, int*, int*, int*)",1,"gld_transactions","Global Load Transactions",134250498,134250498,134250498
+"NVIDIA GeForce GTX 1050 (0)","mat_mul_naive_4p_multiplications(int, int*, int*, int*)",1,"l2_read_transactions","L2 Read Transactions",37757168,37757168,37757168
+"NVIDIA GeForce GTX 1050 (0)","mat_mul_naive_4p_multiplications(int, int*, int*, int*)",1,"dram_read_transactions","Device Memory Read Transactions",385845,385845,385845
+"NVIDIA GeForce GTX 1050 (0)","mat_mul_naive_4p_multiplications(int, int*, int*, int*)",1,"sysmem_read_transactions","System Memory Read Transactions",0,0,0

@@ -19,6 +19,34 @@ void printArray(int N, int *arr){
   printf("-------------------------\n");
 }
 
+__global__ void mat_mul_naive_4p_multiplications(int N, int *matA, int *matB, int *output){
+    /*
+    Naive implementation: 
+    - We create (N/2)*(N/2) threads
+    - Each thread calculate one element of output.
+    - Henc, each thread multiply one row of A with one column of B.
+    */
+
+    // Thread blocks are in 1D grid and threads in threa block are also in 1D
+    int thread_id = (blockIdx.x * blockDim.x) + threadIdx.x;
+
+    if (thread_id >= N*N/4)
+        return;
+
+    // multiplied by 2, since A & B has doubled sized than output.
+    int rowA = 2*(2*thread_id/N);
+    int colB = 2*thread_id%N;
+    int j = colB;
+
+    // Current thread will calculate output[thread_id], so it multiply A[rowA] * B[colB]
+    for (int i = rowA*N; i < (rowA+1)*N; i++){
+        output[thread_id] += matA[i]*matB[j];
+        output[thread_id] += matA[i]*matB[j+1];
+        output[thread_id] += matA[i+N]*matB[j];
+        output[thread_id] += matA[i+N]*matB[j+1];
+        j+=N;
+    }
+}
 
 __global__ void mat_mul_naive(int N, int *matA, int *matB, int *output){
     /*
@@ -118,15 +146,15 @@ void gpuThread(int N, int *matA, int *matB, int *output)
     cudaMemcpy(output_gpu, output, bytes/4, cudaMemcpyHostToDevice);
 
 
-    int kernel = 1;
+    int kernel = 2;
     int TILE = 32;
     dim3 threadsPerBlock(TILE, TILE);
     dim3 numBlocks((N>>1)/TILE, (N>>1)/TILE);
-
+    int N_THREADS_PER_BLOCK, N_BLOCKS; // for naive
     switch (kernel){
 
-        case 0: // Naive implementation
-            int N_THREADS_PER_BLOCK, N_BLOCKS;
+        case 0: // Naive implementation with p multiplications
+            
             N_THREADS_PER_BLOCK = 1 << 10;
             N_BLOCKS = (N*N/4 + N_THREADS_PER_BLOCK - 1) / N_THREADS_PER_BLOCK;
             mat_mul_naive <<< N_BLOCKS, N_THREADS_PER_BLOCK >>> (N, matA_gpu, matB_gpu, output_gpu);
@@ -135,6 +163,12 @@ void gpuThread(int N, int *matA, int *matB, int *output)
         case 1: // Tiled implementation
             mat_mul_tiled <<<numBlocks, threadsPerBlock, 2*TILE*TILE*sizeof(int)>>> (N, TILE, matA_gpu, matB_gpu, output_gpu);
             break;
+
+        case 2: // Naive implementation with 4p multiplications
+            N_THREADS_PER_BLOCK = 1 << 10;
+            N_BLOCKS = (N*N/4 + N_THREADS_PER_BLOCK - 1) / N_THREADS_PER_BLOCK;
+            mat_mul_naive_4p_multiplications <<< N_BLOCKS, N_THREADS_PER_BLOCK >>> (N, matA_gpu, matB_gpu, output_gpu);
+        break;
 
         default:
             printf("Invalid kernel\n");

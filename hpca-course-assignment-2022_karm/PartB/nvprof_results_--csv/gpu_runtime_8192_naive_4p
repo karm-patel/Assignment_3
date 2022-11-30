@@ -1,0 +1,10 @@
+==15333== NVPROF is profiling process 15333, command: ./cmm_server data/input_8192.in
+==15333== Profiling application: ./cmm_server data/input_8192.in
+==15333== Profiling result:
+"Start","Duration","Grid X","Grid Y","Grid Z","Block X","Block Y","Block Z","Registers Per Thread","Static SMem","Dynamic SMem","Size","Throughput","SrcMemType","DstMemType","Device","Context","Stream","Name","Correlation_ID"
+s,s,,,,,,,,B,B,MB,GB/s,,,,,,,
+0.270016,0.048787,,,,,,,,,,256.000000,5.124324,"Pageable","Device","NVIDIA GeForce GTX 1050 (0)","1","7","[CUDA memcpy HtoD]",111
+0.318942,0.048052,,,,,,,,,,256.000000,5.202647,"Pageable","Device","NVIDIA GeForce GTX 1050 (0)","1","7","[CUDA memcpy HtoD]",112
+0.367187,0.011837,,,,,,,,,,64.000000,5.280258,"Pageable","Device","NVIDIA GeForce GTX 1050 (0)","1","7","[CUDA memcpy HtoD]",113
+0.379061,24.940062,16384,1,1,1024,1,1,26,0,0,,,,,"NVIDIA GeForce GTX 1050 (0)","1","7","mat_mul_naive_4p_multiplications(int, int*, int*, int*)",114
+25.319127,0.015649,,,,,,,,,,64.000000,3.993739,"Device","Pageable","NVIDIA GeForce GTX 1050 (0)","1","7","[CUDA memcpy DtoH]",115
