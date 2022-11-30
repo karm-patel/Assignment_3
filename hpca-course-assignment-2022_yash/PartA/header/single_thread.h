@@ -66,7 +66,6 @@ void singleThread(int N, int *matA, int *matB, int *output)
                 output[indexC+1] += sum[2] + sum[3];
                 output[indexC+2] += sum[4] + sum[5];
                 output[indexC+3] += sum[6] + sum[7];
-                // cout << output[indexC];
             }
         }
     }
