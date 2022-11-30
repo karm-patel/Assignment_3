@@ -21,7 +21,7 @@ void printArray(int N, int *arr){
 
 __global__ void mat_mul_naive_4p_multiplications(int N, int *matA, int *matB, int *output){
     /*
-    Naive implementation: 
+    Naive implementation with 4p multiplicatons: 
     - We create (N/2)*(N/2) threads
     - Each thread calculate one element of output.
     - Henc, each thread multiply one row of A with one column of B.
@@ -78,7 +78,6 @@ __global__ void mat_mul_tiled(int N, int tile, int *matA, int *matB, int *output
     /*
     Tiled implementation:
     - We create (N/2)*(N/2) threads
-
     */
     int tx, ty;
     tx = threadIdx.x;
@@ -146,7 +145,10 @@ void gpuThread(int N, int *matA, int *matB, int *output)
     cudaMemcpy(output_gpu, output, bytes/4, cudaMemcpyHostToDevice);
 
 
-    int kernel = 2;
+    int kernel = 1;
+    if (N < 64) {
+        kernel = 0; // since tile size is 32, tiled version won't run on input < 64
+    }
     int TILE = 32;
     dim3 threadsPerBlock(TILE, TILE);
     dim3 numBlocks((N>>1)/TILE, (N>>1)/TILE);
