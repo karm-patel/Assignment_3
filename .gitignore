@@ -4,3 +4,4 @@
 **/*.in
 */rmm
 **/.out
+.vscode
